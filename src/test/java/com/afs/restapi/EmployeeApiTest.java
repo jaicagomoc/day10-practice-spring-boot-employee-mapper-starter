@@ -62,7 +62,7 @@ class EmployeeApiTest {
 
     @Test
     void should_create_employee() throws Exception {
-        EmployeeRequest employeeRequest = new EmployeeRequest("Jaira", 24, "Female", 3000, null);
+        EmployeeRequest employeeRequest = new EmployeeRequest("Jira", 24, "Female", 3000, null);
         ObjectMapper objectMapper = new ObjectMapper();
         String employeeRequestJSON = objectMapper.writeValueAsString(employeeRequest);
         mockMvc.perform(post("/employees")
@@ -86,7 +86,6 @@ class EmployeeApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updatedEmployeeJson))
                 .andExpect(MockMvcResultMatchers.status().is(204));
-
         Optional<Employee> optionalEmployee = employeeRepository.findById(previousEmployee.getId());
         assertTrue(optionalEmployee.isPresent());
         Employee updatedEmployee = optionalEmployee.get();

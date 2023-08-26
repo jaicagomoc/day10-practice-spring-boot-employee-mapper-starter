@@ -30,16 +30,18 @@ public class EmployeeService {
                 .orElseThrow(EmployeeNotFoundException::new);
     }
 
-    public void update(Long id, Employee employee) {
+    public void update(Long id, EmployeeRequest employeeRequest) {
         Employee toBeUpdatedEmployee = employeeRepository.findById(id)
                 .orElseThrow(EmployeeNotFoundException::new);
-        if (employee.getSalary() != null) {
-            toBeUpdatedEmployee.setSalary(employee.getSalary());
+        if (employeeRequest.getSalary() != 0) {
+            toBeUpdatedEmployee.setSalary(employeeRequest.getSalary());
         }
-        if (employee.getAge() != null) {
-            toBeUpdatedEmployee.setAge(employee.getAge());
+        if (employeeRequest.getAge() != 0) {
+            toBeUpdatedEmployee.setAge(employeeRequest.getAge());
         }
-        employeeRepository.save(toBeUpdatedEmployee);
+        Employee updatedEmployee = EmployeeMapper.toEntity((employeeRequest));
+
+        employeeRepository.save(updatedEmployee);
     }
 
     public List<Employee> findAllByGender(String gender) {
