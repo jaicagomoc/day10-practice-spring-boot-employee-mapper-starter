@@ -1,11 +1,12 @@
 package com.afs.restapi.service.dto;
 
 public class CompanyRequest {
-    private  String name;
-    public CompanyRequest(){
+    private String name;
 
+    public CompanyRequest() {
     }
-    public CompanyRequest(String name) {
+
+    public CompanyRequest(String name, Integer employees) {
         this.name = name;
     }
 
@@ -13,7 +14,4 @@ public class CompanyRequest {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }
