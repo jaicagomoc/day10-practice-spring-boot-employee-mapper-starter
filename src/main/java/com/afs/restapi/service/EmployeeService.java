@@ -7,7 +7,6 @@ import com.afs.restapi.service.dto.EmployeeRequest;
 import com.afs.restapi.service.dto.EmployeeResponse;
 import com.afs.restapi.service.dto.EmployeeUpdateRequest;
 import com.afs.restapi.service.mapper.EmployeeMapper;
-import com.afs.restapi.service.mapper.EmployeeUpdateMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,10 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> findAll() {
-        return employeeRepository.findAll();
+    public List<EmployeeResponse> findAll() {
+        return employeeRepository.findAll().stream()
+                .map(EmployeeMapper::toReponse)
+                .collect(Collectors.toList());
     }
 
     public EmployeeResponse findById(Long id) {
@@ -42,8 +43,8 @@ public class EmployeeService {
         if (employeeUpdateRequest.getAge() != 0) {
             toBeUpdatedEmployee.setAge(employeeUpdateRequest.getAge());
         }
-        Employee updatedEmployee = EmployeeUpdateMapper.toEntity((employeeUpdateRequest));
-        EmployeeUpdateMapper.toResponse(employeeRepository.save(updatedEmployee));
+        Employee updatedEmployee = EmployeeMapper.toEntity((employeeUpdateRequest));
+        EmployeeMapper.toResponse(employeeRepository.save(updatedEmployee));
     }
 
     public List<Employee> findAllByGender(String gender) {
