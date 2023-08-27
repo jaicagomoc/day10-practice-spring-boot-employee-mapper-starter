@@ -3,6 +3,9 @@ package com.afs.restapi;
 import com.afs.restapi.entity.Employee;
 import com.afs.restapi.repository.EmployeeRepository;
 import com.afs.restapi.service.dto.EmployeeRequest;
+import com.afs.restapi.service.dto.EmployeeUpdateRequest;
+import com.afs.restapi.service.mapper.EmployeeMapper;
+import com.afs.restapi.service.mapper.EmployeeUpdateMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,8 +81,9 @@ class EmployeeApiTest {
 
     @Test
     void should_update_employee_age_and_salary() throws Exception {
-        Employee previousEmployee = employeeRepository.save(new Employee(null,"Json", 22, "Male", 1000));
-        Employee employeeUpdateRequest = new Employee(previousEmployee.getId(), "lisi", 24, "Female", 2000);
+        EmployeeUpdateRequest previousEmployee = (new EmployeeUpdateRequest(1L, "Bob", 22, "Male", 1000));
+        employeeRepository.save(EmployeeUpdateMapper.toEntity(previousEmployee));
+        EmployeeUpdateRequest employeeUpdateRequest = new EmployeeUpdateRequest(previousEmployee.getId(), "lisi", 24, "Female", 2000);
         ObjectMapper objectMapper = new ObjectMapper();
         String updatedEmployeeJson = objectMapper.writeValueAsString(employeeUpdateRequest);
         mockMvc.perform(put("/employees/{id}", previousEmployee.getId())
