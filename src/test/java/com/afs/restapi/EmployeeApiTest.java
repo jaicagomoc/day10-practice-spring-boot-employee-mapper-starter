@@ -52,7 +52,6 @@ class EmployeeApiTest {
     @Test
     void should_find_employee_by_gender() throws Exception {
         Employee bob = employeeRepository.save(getEmployeeBob());
-        Employee susan = employeeRepository.save(getEmployeeSusan());
 
         mockMvc.perform(get("/employees?gender={0}", "Male"))
                 .andExpect(MockMvcResultMatchers.status().is(200))
@@ -66,7 +65,7 @@ class EmployeeApiTest {
 
     @Test
     void should_create_employee() throws Exception {
-        EmployeeRequest employeeRequest = new EmployeeRequest("Jira", 24, "Female", 3000, null);
+        EmployeeRequest employeeRequest = new EmployeeRequest("Jira", 24, "Female");
         ObjectMapper objectMapper = new ObjectMapper();
         String employeeRequestJSON = objectMapper.writeValueAsString(employeeRequest);
         mockMvc.perform(post("/employees")
@@ -82,7 +81,7 @@ class EmployeeApiTest {
 
     @Test
     void should_update_employee_age_and_salary() throws Exception {
-        EmployeeRequest employeeRequest = new EmployeeRequest("Bob", 22, "Male", 1000, null);
+        EmployeeRequest employeeRequest = new EmployeeRequest("Bob", 22, "Male");
         Employee toBeUpdateEmployee = employeeRepository.save(EmployeeMapper.toEntity(employeeRequest));
         EmployeeUpdateRequest employeeUpdateRequest = new EmployeeUpdateRequest( 24, 2000);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -104,7 +103,7 @@ class EmployeeApiTest {
 
     @Test
     void should_find_employee_by_id() throws Exception {
-        EmployeeRequest employeeRequest = new EmployeeRequest("Bob", 22, "Male", 1000, null);
+        EmployeeRequest employeeRequest = new EmployeeRequest("Bob", 22, "Male");
         Employee employee = employeeRepository.save(EmployeeMapper.toEntity(employeeRequest));
         ObjectMapper objectMapper = new ObjectMapper();
         String updatedEmployeeJson = objectMapper.writeValueAsString(employee);
@@ -123,7 +122,6 @@ class EmployeeApiTest {
     void should_find_employees_by_page() throws Exception {
         Employee bob = employeeRepository.save(getEmployeeBob());
         Employee susan = employeeRepository.save(getEmployeeSusan());
-        Employee lily = employeeRepository.save(getEmployeeLily());
 
         mockMvc.perform(get("/employees")
                         .param("pageNumber", "1")

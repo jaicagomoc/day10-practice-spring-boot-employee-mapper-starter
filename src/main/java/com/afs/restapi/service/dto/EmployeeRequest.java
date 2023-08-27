@@ -4,16 +4,12 @@ public class EmployeeRequest {
     private String name;
     private int age;
     private String gender;
-    private int salary;
-    private Long companyId;
 
 
-    public EmployeeRequest( String name, int age, String gender, int salary, Long companyId) {
+    public EmployeeRequest( String name, int age, String gender) {
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.salary = salary;
-        this.companyId = companyId;
     }
 
 
