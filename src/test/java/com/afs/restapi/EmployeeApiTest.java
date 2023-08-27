@@ -3,6 +3,7 @@ package com.afs.restapi;
 import com.afs.restapi.entity.Employee;
 import com.afs.restapi.repository.EmployeeRepository;
 import com.afs.restapi.service.dto.EmployeeRequest;
+import com.afs.restapi.service.dto.EmployeeResponse;
 import com.afs.restapi.service.dto.EmployeeUpdateRequest;
 import com.afs.restapi.service.mapper.EmployeeMapper;
 import com.afs.restapi.service.mapper.EmployeeUpdateMapper;
@@ -70,8 +71,8 @@ class EmployeeApiTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String employeeRequestJSON = objectMapper.writeValueAsString(employeeRequest);
         mockMvc.perform(post("/employees")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(employeeRequestJSON))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(employeeRequestJSON))
                 .andExpect(MockMvcResultMatchers.status().is(201))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(notNullValue()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(employeeRequest.getName()))
@@ -103,9 +104,13 @@ class EmployeeApiTest {
 
     @Test
     void should_find_employee_by_id() throws Exception {
-        Employee employee = employeeRepository.save(getEmployeeBob());
-
-        mockMvc.perform(get("/employees/{id}", employee.getId()))
+        EmployeeRequest employeeRequest = new EmployeeRequest("Bob", 22, "Male", 1000, null);
+        Employee employee = employeeRepository.save(EmployeeMapper.toEntity(employeeRequest));
+        ObjectMapper objectMapper = new ObjectMapper();
+        String updatedEmployeeJson = objectMapper.writeValueAsString(employee);
+        mockMvc.perform(get("/employees/{id}", employee.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(updatedEmployeeJson))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(employee.getId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(employee.getName()))
