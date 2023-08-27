@@ -6,6 +6,7 @@ import com.afs.restapi.repository.EmployeeRepository;
 import com.afs.restapi.service.dto.EmployeeRequest;
 import com.afs.restapi.service.dto.EmployeeResponse;
 import com.afs.restapi.service.mapper.EmployeeMapper;
+import com.afs.restapi.service.mapper.EmployeeUpdateMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class EmployeeService {
                 .orElseThrow(EmployeeNotFoundException::new);
     }
 
-    public void update(Long id, EmployeeRequest employeeRequest) {
+    public EmployeeResponse update(Long id, EmployeeRequest employeeRequest) {
         Employee toBeUpdatedEmployee = employeeRepository.findById(id)
                 .orElseThrow(EmployeeNotFoundException::new);
         if (employeeRequest.getSalary() != 0) {
@@ -40,8 +41,7 @@ public class EmployeeService {
             toBeUpdatedEmployee.setAge(employeeRequest.getAge());
         }
         Employee updatedEmployee = EmployeeMapper.toEntity((employeeRequest));
-
-        employeeRepository.save(updatedEmployee);
+        return EmployeeUpdateMapper.toResponse( employeeRepository.save(updatedEmployee));
     }
 
     public List<Employee> findAllByGender(String gender) {
