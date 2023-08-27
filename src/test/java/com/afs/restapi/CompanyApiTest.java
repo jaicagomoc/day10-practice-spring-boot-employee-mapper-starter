@@ -7,7 +7,6 @@ import com.afs.restapi.repository.EmployeeRepository;
 import com.afs.restapi.service.dto.CompanyRequest;
 import com.afs.restapi.service.dto.CompanyUpdateRequest;
 import com.afs.restapi.service.mapper.CompanyMapper;
-import com.afs.restapi.service.mapper.CompanyUpdateMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

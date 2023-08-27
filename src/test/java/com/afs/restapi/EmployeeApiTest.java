@@ -3,10 +3,8 @@ package com.afs.restapi;
 import com.afs.restapi.entity.Employee;
 import com.afs.restapi.repository.EmployeeRepository;
 import com.afs.restapi.service.dto.EmployeeRequest;
-import com.afs.restapi.service.dto.EmployeeResponse;
 import com.afs.restapi.service.dto.EmployeeUpdateRequest;
 import com.afs.restapi.service.mapper.EmployeeMapper;
-import com.afs.restapi.service.mapper.EmployeeUpdateMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +19,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
