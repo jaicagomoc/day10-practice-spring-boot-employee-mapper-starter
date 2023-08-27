@@ -12,9 +12,8 @@ public class EmployeeUpdateMapper {
         return employee;
     }
 
-    public static EmployeeResponse toResponse(Employee employee) {
+    public static void toResponse(Employee employee) {
         EmployeeResponse employeeResponse = new EmployeeResponse();
         BeanUtils.copyProperties(employee, employeeResponse);
-        return employeeResponse;
     }
 }

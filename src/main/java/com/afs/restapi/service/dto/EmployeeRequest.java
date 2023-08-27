@@ -15,26 +15,6 @@ public class EmployeeRequest {
         this.companyId = companyId;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
-
 
     public String getName() {
         return name;
@@ -48,13 +28,6 @@ public class EmployeeRequest {
         return gender;
     }
 
-    public int getSalary() {
-        return salary;
-    }
-
-    public Long getCompanyId() {
-        return companyId;
-    }
 }
 
 

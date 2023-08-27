@@ -12,9 +12,8 @@ public class CompanyUpdateMapper {
         return company;
     }
 
-    public static CompanyResponse toResponse(Company company) {
+    public static void toResponse(Company company) {
         CompanyResponse companyResponse = new CompanyResponse();
         BeanUtils.copyProperties(company, companyResponse);
-        return companyResponse;
     }
 }
