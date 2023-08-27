@@ -5,6 +5,7 @@ import com.afs.restapi.exception.EmployeeNotFoundException;
 import com.afs.restapi.repository.EmployeeRepository;
 import com.afs.restapi.service.dto.EmployeeRequest;
 import com.afs.restapi.service.dto.EmployeeResponse;
+import com.afs.restapi.service.dto.EmployeeUpdateRequest;
 import com.afs.restapi.service.mapper.EmployeeMapper;
 import com.afs.restapi.service.mapper.EmployeeUpdateMapper;
 import org.springframework.data.domain.Page;
@@ -31,17 +32,17 @@ public class EmployeeService {
                 .orElseThrow(EmployeeNotFoundException::new);
     }
 
-    public EmployeeResponse update(Long id, EmployeeRequest employeeRequest) {
+    public void update(Long id, EmployeeUpdateRequest employeeUpdateRequest) {
         Employee toBeUpdatedEmployee = employeeRepository.findById(id)
                 .orElseThrow(EmployeeNotFoundException::new);
-        if (employeeRequest.getSalary() != 0) {
-            toBeUpdatedEmployee.setSalary(employeeRequest.getSalary());
+        if (employeeUpdateRequest.getSalary() != 0) {
+            toBeUpdatedEmployee.setSalary(employeeUpdateRequest.getSalary());
         }
-        if (employeeRequest.getAge() != 0) {
-            toBeUpdatedEmployee.setAge(employeeRequest.getAge());
+        if (employeeUpdateRequest.getAge() != 0) {
+            toBeUpdatedEmployee.setAge(employeeUpdateRequest.getAge());
         }
-        Employee updatedEmployee = EmployeeMapper.toEntity((employeeRequest));
-        return EmployeeUpdateMapper.toResponse( employeeRepository.save(updatedEmployee));
+        Employee updatedEmployee = EmployeeUpdateMapper.toEntity((employeeUpdateRequest));
+       EmployeeUpdateMapper.toResponse( employeeRepository.save(updatedEmployee));
     }
 
     public List<Employee> findAllByGender(String gender) {
