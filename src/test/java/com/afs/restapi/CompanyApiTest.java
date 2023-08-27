@@ -5,7 +5,6 @@ import com.afs.restapi.entity.Employee;
 import com.afs.restapi.repository.CompanyRepository;
 import com.afs.restapi.repository.EmployeeRepository;
 import com.afs.restapi.service.dto.CompanyRequest;
-import com.afs.restapi.service.dto.CompanyUpdateRequest;
 import com.afs.restapi.service.mapper.CompanyMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -43,12 +42,12 @@ class CompanyApiTest {
     @Test
     void should_find_companies() throws Exception {
         Company company = companyRepository.save(getCompanyOOCL());
-
         mockMvc.perform(get("/companies"))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(company.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(company.getName()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(company.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].employeesCount").exists());
     }
 
     @Test
@@ -57,20 +56,20 @@ class CompanyApiTest {
         Company company = companyRepository.save(CompanyMapper.toEntity(companyRequest));
         ObjectMapper objectMapper = new ObjectMapper();
         String updateCompanyJSON = objectMapper.writeValueAsString(company);
-
         mockMvc.perform(get("/companies/{id}", company.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateCompanyJSON))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(company.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(company.getName()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(company.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employeesCount").exists());
     }
 
     @Test
     void should_update_company_name() throws Exception {
         CompanyRequest companyRequest = new CompanyRequest("Facebook");
         Company toBeUpdateCompany = companyRepository.save(CompanyMapper.toEntity(companyRequest));
-        CompanyUpdateRequest companyUpdateRequest = new CompanyUpdateRequest("Meta");
+        CompanyRequest companyUpdateRequest = new CompanyRequest("Meta");
         ObjectMapper objectMapper = new ObjectMapper();
         String updateCompanyJSON = objectMapper.writeValueAsString(companyUpdateRequest);
         mockMvc.perform(put("/companies/{id}", toBeUpdateCompany.getId())

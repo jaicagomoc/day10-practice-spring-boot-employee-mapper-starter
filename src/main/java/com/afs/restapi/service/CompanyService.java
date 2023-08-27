@@ -7,7 +7,6 @@ import com.afs.restapi.repository.CompanyRepository;
 import com.afs.restapi.repository.EmployeeRepository;
 import com.afs.restapi.service.dto.CompanyRequest;
 import com.afs.restapi.service.dto.CompanyResponse;
-import com.afs.restapi.service.dto.CompanyUpdateRequest;
 import com.afs.restapi.service.mapper.CompanyMapper;
 import com.afs.restapi.service.mapper.CompanyUpdateMapper;
 import org.springframework.data.domain.PageRequest;
@@ -26,13 +25,16 @@ public class CompanyService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Company> findAll() {
-        return companyRepository.findAll();
+    public List<CompanyResponse> findAll() {
+        return companyRepository.findAll().stream()
+                .map(CompanyMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
-    public Company findById(Long id) {
-        return companyRepository.findById(id)
+    public CompanyResponse findById(Long id) {
+        Company company = companyRepository.findById(id)
                 .orElseThrow(CompanyNotFoundException::new);
+        return CompanyMapper.toResponse(company);
     }
 
     public List<Company> findByPage(Integer pageNumber, Integer pageSize) {
@@ -40,11 +42,11 @@ public class CompanyService {
                 .collect(Collectors.toList());
     }
 
-    public void update(Long id, CompanyUpdateRequest companyUpdateRequest) {
+    public void update(Long id, CompanyRequest companyRequest) {
         Company toBeUpdatedCompany = companyRepository.findById(id)
                 .orElseThrow(CompanyNotFoundException::new);
-        toBeUpdatedCompany.setName(companyUpdateRequest.getName());
-        Company updatedCompany = CompanyUpdateMapper.toEntity(companyUpdateRequest);
+        toBeUpdatedCompany.setName(companyRequest.getName());
+        Company updatedCompany = CompanyUpdateMapper.toEntity(companyRequest);
         CompanyUpdateMapper.toResponse(companyRepository.save(updatedCompany));
     }
 

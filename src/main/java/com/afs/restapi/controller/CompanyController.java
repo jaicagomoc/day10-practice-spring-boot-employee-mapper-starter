@@ -1,11 +1,10 @@
 package com.afs.restapi.controller;
 
 import com.afs.restapi.entity.Company;
-import com.afs.restapi.service.CompanyService;
 import com.afs.restapi.entity.Employee;
+import com.afs.restapi.service.CompanyService;
 import com.afs.restapi.service.dto.CompanyRequest;
 import com.afs.restapi.service.dto.CompanyResponse;
-import com.afs.restapi.service.dto.CompanyUpdateRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ public class CompanyController {
     }
 
     @GetMapping
-    public List<Company> getAllCompanies() {
+    public List<CompanyResponse> getAllCompanies() {
         return companyService.findAll();
     }
 
@@ -32,14 +31,14 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}")
-    public Company getCompanyById(@PathVariable Long id) {
+    public CompanyResponse getCompanyById(@PathVariable Long id) {
         return companyService.findById(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCompany(@PathVariable Long id, @RequestBody CompanyUpdateRequest companyUpdateRequest) {
-        companyService.update(id, companyUpdateRequest);
+    public void updateCompany(@PathVariable Long id, @RequestBody CompanyRequest companyRequest) {
+        companyService.update(id, companyRequest);
     }
 
     @DeleteMapping("/{id}")
