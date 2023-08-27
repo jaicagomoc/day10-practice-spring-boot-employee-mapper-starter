@@ -5,6 +5,7 @@ import com.afs.restapi.service.CompanyService;
 import com.afs.restapi.entity.Employee;
 import com.afs.restapi.service.dto.CompanyRequest;
 import com.afs.restapi.service.dto.CompanyResponse;
+import com.afs.restapi.service.dto.CompanyUpdateRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,8 +38,8 @@ public class CompanyController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCompany(@PathVariable Long id, @RequestBody Company company) {
-        companyService.update(id, company);
+    public void updateCompany(@PathVariable Long id, @RequestBody CompanyUpdateRequest companyUpdateRequest) {
+        companyService.update(id, companyUpdateRequest);
     }
 
     @DeleteMapping("/{id}")

@@ -92,14 +92,15 @@ class EmployeeApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updatedEmployeeJson))
                 .andExpect(MockMvcResultMatchers.status().is(204));
-        Optional<Employee> byId = employeeRepository.findById(toBeUpdateEmployee.getId());
-        assertTrue(byId.isPresent());
-        Employee updatedEmployeeById = byId.get();
+        Optional<Employee> optionalEmployee = employeeRepository.findById(toBeUpdateEmployee.getId());
+        assertTrue(optionalEmployee.isPresent());
+        Employee updatedEmployeeById = optionalEmployee.get();
         Assertions.assertEquals(toBeUpdateEmployee.getId(),updatedEmployeeById.getId());
-        Assertions.assertEquals(employeeUpdateRequest.getAge(),updatedEmployeeById.getAge());
-        Assertions.assertEquals(employeeUpdateRequest.getSalary(),updatedEmployeeById.getSalary());
         Assertions.assertEquals(toBeUpdateEmployee.getName(),updatedEmployeeById.getName());
         Assertions.assertEquals(toBeUpdateEmployee.getGender(),updatedEmployeeById.getGender());
+        Assertions.assertEquals(employeeUpdateRequest.getAge(),updatedEmployeeById.getAge());
+        Assertions.assertEquals(employeeUpdateRequest.getSalary(),updatedEmployeeById.getSalary());
+
     }
 
     @Test

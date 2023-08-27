@@ -6,6 +6,7 @@ import com.afs.restapi.repository.CompanyRepository;
 import com.afs.restapi.repository.EmployeeRepository;
 import com.afs.restapi.service.dto.CompanyRequest;
 import com.afs.restapi.service.dto.CompanyUpdateRequest;
+import com.afs.restapi.service.mapper.CompanyMapper;
 import com.afs.restapi.service.mapper.CompanyUpdateMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -70,21 +71,21 @@ class CompanyApiTest {
 
     @Test
     void should_update_company_name() throws Exception {
-        CompanyUpdateRequest previousCompany = new CompanyUpdateRequest(1L, "Facebook");
-        companyRepository.save(CompanyUpdateMapper.toEntity(previousCompany));
-        Company companyUpdateRequest = new Company(previousCompany.getId(), "Meta");
+        CompanyRequest companyRequest = new CompanyRequest( "Facebook");
+        Company toBeUpdateCompany = companyRepository.save(CompanyMapper.toEntity(companyRequest));
+        CompanyUpdateRequest companyUpdateRequest = new CompanyUpdateRequest( "Meta");
         ObjectMapper objectMapper = new ObjectMapper();
-        String updatedEmployeeJson = objectMapper.writeValueAsString(companyUpdateRequest);
-        mockMvc.perform(put("/companies/{id}", previousCompany.getId())
+        String updateCompanyJSON = objectMapper.writeValueAsString(companyUpdateRequest);
+        mockMvc.perform(put("/companies/{id}", toBeUpdateCompany.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(updatedEmployeeJson))
+                        .content(updateCompanyJSON))
                 .andExpect(MockMvcResultMatchers.status().is(204));
 
-        Optional<Company> optionalCompany = companyRepository.findById(previousCompany.getId());
+        Optional<Company> optionalCompany = companyRepository.findById(toBeUpdateCompany.getId());
         assertTrue(optionalCompany.isPresent());
-        Company updatedCompany = optionalCompany.get();
-        Assertions.assertEquals(previousCompany.getId(), updatedCompany.getId());
-        Assertions.assertEquals(companyUpdateRequest.getName(), updatedCompany.getName());
+        Company updatedCompanyById = optionalCompany.get();
+        Assertions.assertEquals(toBeUpdateCompany.getId(), updatedCompanyById.getId());
+        Assertions.assertEquals(companyUpdateRequest.getName(), updatedCompanyById.getName());
     }
 
     @Test
@@ -98,7 +99,7 @@ class CompanyApiTest {
 
     @Test
     void should_create_company() throws Exception {
-        CompanyRequest companyRequest = new CompanyRequest("OOCL",null);
+        CompanyRequest companyRequest = new CompanyRequest("OOCL");
         ObjectMapper objectMapper = new ObjectMapper();
         String companyRequestJSON = objectMapper.writeValueAsString(companyRequest);
         mockMvc.perform(post("/companies")

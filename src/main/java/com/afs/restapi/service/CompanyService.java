@@ -7,7 +7,9 @@ import com.afs.restapi.repository.CompanyRepository;
 import com.afs.restapi.repository.EmployeeRepository;
 import com.afs.restapi.service.dto.CompanyRequest;
 import com.afs.restapi.service.dto.CompanyResponse;
+import com.afs.restapi.service.dto.CompanyUpdateRequest;
 import com.afs.restapi.service.mapper.CompanyMapper;
+import com.afs.restapi.service.mapper.CompanyUpdateMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -38,11 +40,12 @@ public class CompanyService {
                 .collect(Collectors.toList());
     }
 
-    public void update(Long id, Company company) {
+    public void update(Long id, CompanyUpdateRequest companyUpdateRequest) {
         Company toBeUpdatedCompany = companyRepository.findById(id)
                 .orElseThrow(CompanyNotFoundException::new);
-        toBeUpdatedCompany.setName(company.getName());
-        companyRepository.save(toBeUpdatedCompany);
+        toBeUpdatedCompany.setName(companyUpdateRequest.getName());
+        Company updatedCompany = CompanyUpdateMapper.toEntity(companyUpdateRequest);
+        CompanyUpdateMapper.toResponse(companyRepository.save(updatedCompany));
     }
 
     public CompanyResponse create(CompanyRequest companyRequest) {

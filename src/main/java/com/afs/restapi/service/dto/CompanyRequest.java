@@ -6,9 +6,12 @@ public class CompanyRequest {
     public CompanyRequest() {
     }
 
-    public CompanyRequest(String name, Integer employees) {
+    public CompanyRequest(String name) {
+
         this.name = name;
     }
+
+
 
     public String getName() {
         return name;
