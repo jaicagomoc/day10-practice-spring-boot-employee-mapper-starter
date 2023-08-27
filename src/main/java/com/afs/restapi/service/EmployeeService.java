@@ -42,7 +42,7 @@ public class EmployeeService {
             toBeUpdatedEmployee.setAge(employeeUpdateRequest.getAge());
         }
         Employee updatedEmployee = EmployeeUpdateMapper.toEntity((employeeUpdateRequest));
-       EmployeeUpdateMapper.toResponse( employeeRepository.save(updatedEmployee));
+        EmployeeUpdateMapper.toResponse(employeeRepository.save(updatedEmployee));
     }
 
     public List<Employee> findAllByGender(String gender) {
@@ -55,7 +55,7 @@ public class EmployeeService {
     }
 
     public List<Employee> findByPage(Integer pageNumber, Integer pageSize) {
-        Page<Employee> employeesInThePage = employeeRepository.findAll(PageRequest.of(pageNumber-1, pageSize));
+        Page<Employee> employeesInThePage = employeeRepository.findAll(PageRequest.of(pageNumber - 1, pageSize));
         return employeesInThePage.stream().collect(Collectors.toList());
     }
 

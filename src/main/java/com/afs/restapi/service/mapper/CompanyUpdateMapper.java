@@ -6,16 +6,15 @@ import com.afs.restapi.service.dto.CompanyUpdateRequest;
 import org.springframework.beans.BeanUtils;
 
 public class CompanyUpdateMapper {
-
     public static Company toEntity(CompanyUpdateRequest previousCompany) {
         Company company = new Company();
-        BeanUtils.copyProperties(previousCompany,company);
+        BeanUtils.copyProperties(previousCompany, company);
         return company;
     }
 
     public static CompanyResponse toResponse(Company company) {
         CompanyResponse companyResponse = new CompanyResponse();
-        BeanUtils.copyProperties(company,companyResponse);
+        BeanUtils.copyProperties(company, companyResponse);
         return companyResponse;
     }
 }

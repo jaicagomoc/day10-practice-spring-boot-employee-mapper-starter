@@ -35,6 +35,7 @@ class EmployeeApiTest {
     void setUp() {
         employeeRepository.deleteAll();
     }
+
     @Test
     void should_find_employees() throws Exception {
         Employee bob = employeeRepository.save(getEmployeeBob());
@@ -47,6 +48,7 @@ class EmployeeApiTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].gender").value(bob.getGender()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].salary").value(bob.getSalary()));
     }
+
     @Test
     void should_find_employee_by_gender() throws Exception {
         Employee bob = employeeRepository.save(getEmployeeBob());
@@ -68,8 +70,8 @@ class EmployeeApiTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String employeeRequestJSON = objectMapper.writeValueAsString(employeeRequest);
         mockMvc.perform(post("/employees")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(employeeRequestJSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(employeeRequestJSON))
                 .andExpect(MockMvcResultMatchers.status().is(201))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(notNullValue()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(employeeRequest.getName()))
@@ -80,9 +82,9 @@ class EmployeeApiTest {
 
     @Test
     void should_update_employee_age_and_salary() throws Exception {
-        EmployeeRequest employeeRequest = new EmployeeRequest("Bob", 22, "Male", 1000,null);
+        EmployeeRequest employeeRequest = new EmployeeRequest("Bob", 22, "Male", 1000, null);
         Employee toBeUpdateEmployee = employeeRepository.save(EmployeeMapper.toEntity(employeeRequest));
-        EmployeeUpdateRequest employeeUpdateRequest = new EmployeeUpdateRequest( "Lisi", 24, "Female", 2000);
+        EmployeeUpdateRequest employeeUpdateRequest = new EmployeeUpdateRequest("Lisi", 24, "Female", 2000);
         ObjectMapper objectMapper = new ObjectMapper();
         String updatedEmployeeJson = objectMapper.writeValueAsString(employeeUpdateRequest);
         mockMvc.perform(put("/employees/{id}", toBeUpdateEmployee.getId())
@@ -92,11 +94,11 @@ class EmployeeApiTest {
         Optional<Employee> optionalEmployee = employeeRepository.findById(toBeUpdateEmployee.getId());
         assertTrue(optionalEmployee.isPresent());
         Employee updatedEmployeeById = optionalEmployee.get();
-        Assertions.assertEquals(toBeUpdateEmployee.getId(),updatedEmployeeById.getId());
-        Assertions.assertEquals(toBeUpdateEmployee.getName(),updatedEmployeeById.getName());
-        Assertions.assertEquals(toBeUpdateEmployee.getGender(),updatedEmployeeById.getGender());
-        Assertions.assertEquals(employeeUpdateRequest.getAge(),updatedEmployeeById.getAge());
-        Assertions.assertEquals(employeeUpdateRequest.getSalary(),updatedEmployeeById.getSalary());
+        Assertions.assertEquals(toBeUpdateEmployee.getId(), updatedEmployeeById.getId());
+        Assertions.assertEquals(toBeUpdateEmployee.getName(), updatedEmployeeById.getName());
+        Assertions.assertEquals(toBeUpdateEmployee.getGender(), updatedEmployeeById.getGender());
+        Assertions.assertEquals(employeeUpdateRequest.getAge(), updatedEmployeeById.getAge());
+        Assertions.assertEquals(employeeUpdateRequest.getSalary(), updatedEmployeeById.getSalary());
 
     }
 
@@ -107,8 +109,8 @@ class EmployeeApiTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String updatedEmployeeJson = objectMapper.writeValueAsString(employee);
         mockMvc.perform(get("/employees/{id}", employee.getId())
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(updatedEmployeeJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedEmployeeJson))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(employee.getId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(employee.getName()))
@@ -121,7 +123,7 @@ class EmployeeApiTest {
     void should_find_employees_by_page() throws Exception {
         Employee bob = employeeRepository.save(getEmployeeBob());
         Employee susan = employeeRepository.save(getEmployeeSusan());
-        Employee lily  = employeeRepository.save(getEmployeeLily());
+        Employee lily = employeeRepository.save(getEmployeeLily());
 
         mockMvc.perform(get("/employees")
                         .param("pageNumber", "1")
