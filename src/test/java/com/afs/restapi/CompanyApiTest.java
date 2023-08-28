@@ -39,6 +39,9 @@ class CompanyApiTest {
         employeeRepository.deleteAll();
     }
 
+    //TODO: can rename method names to better understand what the test does
+    //TODO: can add checking to the methods to assert that list of employees does not exist
+
     @Test
     void should_find_companies() throws Exception {
         Company company = companyRepository.save(getCompanyOOCL());
@@ -50,6 +53,7 @@ class CompanyApiTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].employeesCount").exists());
     }
 
+    //TODO: can directly construct company instead of making companyRequest in update and findById
     @Test
     void should_find_company_by_id() throws Exception {
         CompanyRequest companyRequest = new CompanyRequest("OOCL");
@@ -108,6 +112,7 @@ class CompanyApiTest {
 
     }
 
+    //TODO: can remove assignment of variable google as it is never used
     @Test
     void should_find_companies_by_page() throws Exception {
         Company oocl = companyRepository.save(getCompanyOOCL());

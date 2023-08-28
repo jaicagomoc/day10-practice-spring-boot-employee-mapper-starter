@@ -13,6 +13,7 @@ public class CompanyMapper {
         return company;
     }
 
+    //TODO: no need to check if employees.isEmpty() as it is redundant with employees.size()
     public static CompanyResponse toResponse(Company company) {
         CompanyResponse companyResponse = new CompanyResponse();
         BeanUtils.copyProperties(company,companyResponse);

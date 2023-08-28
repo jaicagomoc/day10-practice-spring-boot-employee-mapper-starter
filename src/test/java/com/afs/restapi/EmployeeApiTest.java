@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest
 @AutoConfigureMockMvc
 class EmployeeApiTest {
-
+    //TODO: can rename method names to better understand what the test does
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -79,6 +79,7 @@ class EmployeeApiTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.salary").doesNotExist());
     }
 
+    //TODO: can use declaration of employee directly instead of mapper on both update and findbyid
     @Test
     void should_update_employee_age_and_salary() throws Exception {
         EmployeeRequest employeeRequest = new EmployeeRequest("Bob", 22, "Male");
@@ -168,6 +169,7 @@ class EmployeeApiTest {
         return employee;
     }
 
+    //TODO: remove getEmployeeLily() as it is never used
     private static Employee getEmployeeLily() {
         Employee employee = new Employee();
         employee.setName("Lily");

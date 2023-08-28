@@ -41,6 +41,7 @@ public class CompanyService {
                 .collect(Collectors.toList());
     }
 
+    //TODO: should save toBeUpdatedCompany. No need to convert to response or to entity
     public void update(Long id, CompanyRequest companyRequest) {
         Company toBeUpdatedCompany = companyRepository.findById(id)
                 .orElseThrow(CompanyNotFoundException::new);

@@ -34,6 +34,8 @@ public class EmployeeService {
         return EmployeeMapper.toReponse(employee);
     }
 
+    //TODO: can reuse employeeRequest instead of making employeeUpdateRequest.
+    //TODO: should save toBeUpdatedEmployee and no need to convert to response or to entity
     public void update(Long id, EmployeeUpdateRequest employeeUpdateRequest) {
         Employee toBeUpdatedEmployee = employeeRepository.findById(id)
                 .orElseThrow(EmployeeNotFoundException::new);
